@@ -2,7 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const logger = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
 
@@ -11,7 +10,6 @@ const userRouter = require("../server/routes/user");
 
 const app = express();
 
-app.use(logger("dev"));
 
 mongoose.connect(
   process.env.DB_URL,
