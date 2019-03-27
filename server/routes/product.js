@@ -41,6 +41,7 @@ router.post("/product/create", parser, (req, res) => {
   const image = req.file.secure_url;
   const price = req.body.price;
   const producer = req.body.producer;
+  const info = req.body.info;
 
   // Return error if no Id is provided
   if (!id) {
@@ -73,7 +74,8 @@ router.post("/product/create", parser, (req, res) => {
       title,
       image,
       price,
-      producer
+      producer,
+      info
     },
     (err, product) => {
       if (err) return res.status(500).send({ message: err.message });
@@ -83,30 +85,5 @@ router.post("/product/create", parser, (req, res) => {
   );
 });
 
-router.get("/search", function(req, res) {
-  let noMatch = null;
-  if (req.query.search) {
-    const regex = new RegExp(escapeRegex(req.query.search), "gi");
-    Product.find(
-      {
-        $or: [{ title: regex }, { producer: regex }, { price: regex }]
-      },
-      (err, products) => {
-        if (err) {
-          res.status(404).send(err.message);
-        }
-        if (workers.length < 1) {
-          noMatch = "No product match that query, please try again";
-        }
-        res.send({ result: products, noMatch: noMatch });
-      }
-    ).limit(10);
-  } else {
-    Product.find({}, (err, products) => {
-      if (err) res.send(err.message);
-      res.send(products);
-    });
-  }
-});
 
 module.exports = router;

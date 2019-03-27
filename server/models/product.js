@@ -26,6 +26,10 @@ const productSchema = new Schema(
       type: String,
       default: "unknown"
     },
+    info: {
+      type: String,
+      default: "No vic tebi malcit, no neniu nederlando iam. Okej infano respondo to kia. Men tempo semajntago bo. Tet nv bisi malcit, vi peri laŭlonge ial. Sep kaŭzo finnlando ho, lo okupi frazparto frazenkondukilo ano."
+    },
     inCart: {
       type: Boolean,
       default: false
@@ -41,6 +45,8 @@ const productSchema = new Schema(
   },
   { timestamps: true }
 );
+
+productSchema.index({ "$**": "text" });
 
 const Product = mongoose.model("Product", productSchema);
 
